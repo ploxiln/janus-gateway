@@ -712,10 +712,10 @@ char *janus_sdp_anonymize(const char *sdp) {
 			replace++;
 			replace = strstr(replace, "a=jfmod:sr");
 		}
-		JANUS_LOG(LOG_VERB, " -------------------------------------------\n");
-		JANUS_LOG(LOG_VERB, "  >> Anonymized (%zu --> %d bytes)\n", strlen(sdp), retval);
-		JANUS_LOG(LOG_VERB, " -------------------------------------------\n");
-		JANUS_LOG(LOG_VERB, "%s\n", buf);
+		JANUS_LOG(LOG_HUGE, " -------------------------------------------\n");
+		JANUS_LOG(LOG_VERB, "  >> Anonymized sdp (%zu --> %d bytes)\n", strlen(sdp), retval);
+		JANUS_LOG(LOG_HUGE, " -------------------------------------------\n");
+		JANUS_LOG(LOG_HUGE, "%s\n", buf);
 		return g_strdup(buf);
 	} else {
 		JANUS_LOG(LOG_ERR, "Error anonymizing SDP: %s\n", sdp_printing_error(printer));
@@ -1178,10 +1178,10 @@ char *janus_sdp_merge(janus_ice_handle *handle, const char *origsdp) {
 	
 	sdp_parser_free(parser);
 
-	JANUS_LOG(LOG_VERB, " -------------------------------------------\n");
-	JANUS_LOG(LOG_VERB, "  >> Merged (%zu --> %zu bytes)\n", strlen(origsdp), strlen(sdp));
-	JANUS_LOG(LOG_VERB, " -------------------------------------------\n");
-	JANUS_LOG(LOG_VERB, "%s\n", sdp);
+	JANUS_LOG(LOG_HUGE, " -------------------------------------------\n");
+	JANUS_LOG(LOG_VERB, "  >> Merged sdp (%zu --> %zu bytes)\n", strlen(origsdp), strlen(sdp));
+	JANUS_LOG(LOG_HUGE, " -------------------------------------------\n");
+	JANUS_LOG(LOG_HUGE, "%s\n", sdp);
 
 	return sdp;
 }

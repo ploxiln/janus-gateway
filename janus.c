@@ -1395,7 +1395,7 @@ int janus_process_incoming_request(janus_request_source *source, json_t *root) {
 				goto jsondone;
 			}
 			jsep_sdp = (char *)json_string_value(sdp);
-			JANUS_LOG(LOG_VERB, "[%"SCNu64"] Remote SDP:\n%s", handle->handle_id, jsep_sdp);
+			JANUS_LOG(LOG_HUGE, "[%"SCNu64"] Remote SDP:\n%s", handle->handle_id, jsep_sdp);
 			/* Is this valid SDP? */
 			int audio = 0, video = 0, data = 0, bundle = 0, rtcpmux = 0, trickle = 0;
 			janus_sdp *parsed_sdp = janus_sdp_preparse(jsep_sdp, &audio, &video, &data, &bundle, &rtcpmux, &trickle);
@@ -1839,7 +1839,7 @@ int janus_process_incoming_request(janus_request_source *source, json_t *root) {
 				janus_mutex_unlock(&handle->mutex);
 				goto jsondone;
 			}
-			JANUS_LOG(LOG_VERB, "Got multiple candidates (%zu)\n", json_array_size(candidates));
+			JANUS_LOG(LOG_HUGE, "Got multiple candidates (%zu)\n", json_array_size(candidates));
 			if(json_array_size(candidates) > 0) {
 				/* Handle remote candidates */
 				size_t i = 0;
@@ -3050,7 +3050,7 @@ int janus_ws_notifier(janus_request_source *source, int max_events) {
 		event->allocated = 1;
 	}
 	/* Finish the request by sending the response */
-	JANUS_LOG(LOG_VERB, "We have a message to serve...\n\t%s\n", event->payload);
+	JANUS_LOG(LOG_INFO, "We have a message to serve: %s\n", event->payload);
 	/* Send event */
 	char *payload = g_strdup(event && event->payload ? event->payload : "");
 	if(payload == NULL) {
