@@ -1602,7 +1602,8 @@ int janus_http_notifier(janus_http_msg *msg, int max_events) {
 	char *payload_text = json_dumps(list ? list : event, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
 	json_decref(list ? list : event);
 	/* Finish the request by sending the response */
-	JANUS_LOG(LOG_VERB, "We have a message to serve...\n\t%s\n", payload_text);
+	JANUS_LOG(LOG_VERB, "We have a message to serve: %.125s%s\n", payload_text,
+	                                    strlen(payload_text) > 125 ? "..." : "");
 	/* Send event */
 	ret = janus_http_return_success(msg, payload_text);
 	return ret;

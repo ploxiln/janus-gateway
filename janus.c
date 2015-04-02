@@ -875,7 +875,7 @@ int janus_process_incoming_request(janus_request *request) {
 				goto jsondone;
 			}
 			jsep_sdp = (char *)json_string_value(sdp);
-			JANUS_LOG(LOG_VERB, "[%"SCNu64"] Remote SDP:\n%s", handle->handle_id, jsep_sdp);
+			JANUS_LOG(LOG_HUGE, "[%"SCNu64"] Remote SDP:\n%s", handle->handle_id, jsep_sdp);
 			/* Is this valid SDP? */
 			int audio = 0, video = 0, data = 0, bundle = 0, rtcpmux = 0, trickle = 0;
 			janus_sdp *parsed_sdp = janus_sdp_preparse(jsep_sdp, &audio, &video, &data, &bundle, &rtcpmux, &trickle);
@@ -1311,7 +1311,7 @@ int janus_process_incoming_request(janus_request *request) {
 				janus_mutex_unlock(&handle->mutex);
 				goto jsondone;
 			}
-			JANUS_LOG(LOG_VERB, "Got multiple candidates (%zu)\n", json_array_size(candidates));
+			JANUS_LOG(LOG_HUGE, "Got multiple candidates (%zu)\n", json_array_size(candidates));
 			if(json_array_size(candidates) > 0) {
 				/* Handle remote candidates */
 				size_t i = 0;
@@ -2301,7 +2301,7 @@ void janus_transportso_close(gpointer key, gpointer value, gpointer user_data) {
 
 /* Transport callback interface */
 void janus_transport_incoming_request(janus_transport *plugin, void *transport, void *request_id, gboolean admin, json_t *message, json_error_t *error) {
-	JANUS_LOG(LOG_VERB, "Got %s API request from %s (%p)\n", admin ? "an admin" : "a Janus", plugin->get_package(), transport);
+	JANUS_LOG(LOG_HUGE, "Got %s API request from %s (%p)\n", admin ? "an admin" : "a Janus", plugin->get_package(), transport);
 	/* Create a janus_request instance to handle the request */
 	janus_request *request = janus_request_new(plugin, transport, request_id, admin, message);
 	GError *tperror = NULL;
@@ -2358,10 +2358,10 @@ gboolean janus_transport_is_auth_token_valid(janus_transport *plugin, const char
 }
 
 void janus_transport_task(gpointer data, gpointer user_data) {
-	JANUS_LOG(LOG_VERB, "Transport task pool, serving request\n");
+	JANUS_LOG(LOG_HUGE, "Transport task pool, serving request\n");
 	janus_request *request = (janus_request *)data;
 	if(request == NULL) {
-		JANUS_LOG(LOG_ERR, "Missing request\n");
+		JANUS_LOG(LOG_ERR, "janus_transport_task: Missing request\n");
 		return;
 	}
 	if(!request->admin)
@@ -2542,7 +2542,7 @@ json_t *janus_plugin_handle_sdp(janus_plugin_session *plugin_session, janus_plug
 				JANUS_LOG(LOG_WARN, "[%"SCNu64"] Handle detached or PC closed, giving up...!\n", ice_handle ? ice_handle->handle_id : 0);
 				return NULL;
 			}
-			JANUS_LOG(LOG_VERB, "[%"SCNu64"] Waiting for candidates-done callback...\n", ice_handle->handle_id);
+			JANUS_LOG(LOG_HUGE, "[%"SCNu64"] Waiting for candidates-done callback...\n", ice_handle->handle_id);
 			g_usleep(100000);
 			if(ice_handle->cdone < 0) {
 				JANUS_LOG(LOG_ERR, "[%"SCNu64"] Error gathering candidates!\n", ice_handle->handle_id);

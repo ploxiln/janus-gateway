@@ -426,10 +426,10 @@ void janus_dtls_srtp_incoming_msg(janus_dtls_srtp *dtls, char *buf, uint16_t len
 			char remote_fingerprint[160];
 			char *rfp = (char *)&remote_fingerprint;
 			if(stream->remote_hashing && !strcasecmp(stream->remote_hashing, "sha-1")) {
-				JANUS_LOG(LOG_VERB, "[%"SCNu64"] Computing sha-1 fingerprint of remote certificate...\n", handle->handle_id);
+				JANUS_LOG(LOG_HUGE, "[%"SCNu64"] Computing sha-1 fingerprint of remote certificate...\n", handle->handle_id);
 				X509_digest(rcert, EVP_sha1(), (unsigned char *)rfingerprint, &rsize);
 			} else {
-				JANUS_LOG(LOG_VERB, "[%"SCNu64"] Computing sha-256 fingerprint of remote certificate...\n", handle->handle_id);
+				JANUS_LOG(LOG_HUGE, "[%"SCNu64"] Computing sha-256 fingerprint of remote certificate...\n", handle->handle_id);
 				X509_digest(rcert, EVP_sha256(), (unsigned char *)rfingerprint, &rsize);
 			}
 			X509_free(rcert);
@@ -443,7 +443,7 @@ void janus_dtls_srtp_incoming_msg(janus_dtls_srtp *dtls, char *buf, uint16_t len
 			JANUS_LOG(LOG_VERB, "[%"SCNu64"] Remote fingerprint (%s) of the client is %s\n",
 				handle->handle_id, stream->remote_hashing ? stream->remote_hashing : "sha-256", remote_fingerprint);
 			if(!strcasecmp(remote_fingerprint, stream->remote_fingerprint ? stream->remote_fingerprint : "(none)")) {
-				JANUS_LOG(LOG_VERB, "[%"SCNu64"]  Fingerprint is a match!\n", handle->handle_id);
+				JANUS_LOG(LOG_HUGE, "[%"SCNu64"]  Fingerprint is a match!\n", handle->handle_id);
 				dtls->dtls_state = JANUS_DTLS_STATE_CONNECTED;
 				dtls->dtls_connected = janus_get_monotonic_time();
 			} else {
@@ -638,7 +638,7 @@ void janus_dtls_callback(const SSL *ssl, int where, int ret) {
 			g_main_loop_quit(handle->iceloop);
 		janus_plugin *plugin = (janus_plugin *)handle->app;
 		if(plugin != NULL) {
-			JANUS_LOG(LOG_VERB, "[%"SCNu64"] Telling the plugin about it (%s)\n", handle->handle_id, plugin->get_name());
+			JANUS_LOG(LOG_HUGE, "[%"SCNu64"] Telling the plugin about it (%s)\n", handle->handle_id, plugin->get_name());
 			if(plugin && plugin->hangup_media)
 				plugin->hangup_media(handle->app_handle);
 			janus_ice_notify_hangup(handle, "DTLS alert");
