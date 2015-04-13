@@ -432,7 +432,7 @@ void janus_ice_notify_media(janus_ice_handle *handle, gboolean video, gboolean u
 	json_object_set_new(event, "type", json_string(video ? "video" : "audio"));
 	json_object_set_new(event, "receiving", json_string(up ? "true" : "false"));
 	/* Convert to a string */
-	char *event_text = json_dumps(event, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+	char *event_text = json_dumps(event, JSON_PRESERVE_ORDER);
 	json_decref(event);
 	/* Send the event */
 	JANUS_LOG(LOG_VERB, "[%"SCNu64"] Adding event to queue of messages...\n", handle->handle_id);
@@ -463,7 +463,7 @@ void janus_ice_notify_hangup(janus_ice_handle *handle, const char *reason) {
 	if(reason != NULL)
 		json_object_set_new(event, "reason", json_string(reason));
 	/* Convert to a string */
-	char *event_text = json_dumps(event, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+	char *event_text = json_dumps(event, JSON_PRESERVE_ORDER);
 	json_decref(event);
 	/* Send the event */
 	JANUS_LOG(LOG_VERB, "[%"SCNu64"] Adding event to queue of messages...\n", handle->handle_id);
@@ -1006,7 +1006,7 @@ gint janus_ice_handle_destroy(void *gateway_session, guint64 handle_id) {
 	json_object_set_new(event, "janus", json_string("detached"));
 	json_object_set_new(event, "sender", json_integer(handle_id));
 	/* Convert to a string */
-	char *event_text = json_dumps(event, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+	char *event_text = json_dumps(event, JSON_PRESERVE_ORDER);
 	json_decref(event);
 	/* Send the event before we do anything */
 	JANUS_LOG(LOG_VERB, "[%"SCNu64"] Adding event to queue of messages...\n", handle_id);
@@ -3372,7 +3372,7 @@ void janus_ice_dtls_handshake_done(janus_ice_handle *handle, janus_ice_component
 	json_object_set_new(event, "session_id", json_integer(session->session_id));
 	json_object_set_new(event, "sender", json_integer(handle->handle_id));
 	/* Convert to a string */
-	char *event_text = json_dumps(event, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+	char *event_text = json_dumps(event, JSON_PRESERVE_ORDER);
 	json_decref(event);
 	/* Send the event */
 	JANUS_LOG(LOG_VERB, "[%"SCNu64"] Adding event to queue of messages...\n", handle->handle_id);

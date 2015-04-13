@@ -246,7 +246,7 @@ char *janus_info(const char *transaction) {
 	}
 	json_object_set_new(info, "plugins", data);
 	/* Convert to a string */
-	char *info_text = json_dumps(info, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+	char *info_text = json_dumps(info, JSON_PRESERVE_ORDER);
 	json_decref(info);
 	
 	return info_text;
@@ -347,7 +347,7 @@ static gboolean janus_check_sessions(gpointer user_data) {
 				json_t *event = json_object();
 				json_object_set_new(event, "janus", json_string("timeout"));
 				json_object_set_new(event, "session_id", json_integer(session->session_id));
-				gchar *event_text = json_dumps(event, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+				gchar *event_text = json_dumps(event, JSON_PRESERVE_ORDER);
 				json_decref(event);
 
 				janus_http_event *notification = g_malloc0(sizeof(janus_http_event));
@@ -855,7 +855,7 @@ int janus_ws_handler(void *cls, struct MHD_Connection *connection, const char *u
 					events++;
 				}
 				/* Return the array of messages and leave */
-				char *event_text = json_dumps(list, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+				char *event_text = json_dumps(list, JSON_PRESERVE_ORDER);
 				json_decref(list);
 				ret = janus_process_success(&source, event_text);
 			}
@@ -959,7 +959,7 @@ int janus_process_incoming_request(janus_request_source *source, json_t *root) {
 			json_t *reply = json_object();
 			json_object_set_new(reply, "janus", json_string("pong"));
 			json_object_set_new(reply, "transaction", json_string(transaction_text));
-			char *reply_text = json_dumps(reply, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+			char *reply_text = json_dumps(reply, JSON_PRESERVE_ORDER);
 			json_decref(reply);
 			ret = janus_process_success(source, g_strdup(reply_text));
 			goto jsondone;
@@ -1076,7 +1076,7 @@ int janus_process_incoming_request(janus_request_source *source, json_t *root) {
 		json_object_set_new(data, "id", json_integer(session_id));
 		json_object_set_new(reply, "data", data);
 		/* Convert to a string */
-		char *reply_text = json_dumps(reply, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+		char *reply_text = json_dumps(reply, JSON_PRESERVE_ORDER);
 		json_decref(reply);
 		/* Send the success reply */
 		ret = janus_process_success(source, reply_text);
@@ -1154,7 +1154,7 @@ int janus_process_incoming_request(janus_request_source *source, json_t *root) {
 		json_object_set_new(reply, "session_id", json_integer(session_id));
 		json_object_set_new(reply, "transaction", json_string(transaction_text));
 		/* Convert to a string */
-		char *reply_text = json_dumps(reply, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+		char *reply_text = json_dumps(reply, JSON_PRESERVE_ORDER);
 		json_decref(reply);
 		/* Send the success reply */
 		ret = janus_process_success(source, reply_text);
@@ -1219,7 +1219,7 @@ int janus_process_incoming_request(janus_request_source *source, json_t *root) {
 		json_object_set_new(data, "id", json_integer(handle_id));
 		json_object_set_new(reply, "data", data);
 		/* Convert to a string */
-		char *reply_text = json_dumps(reply, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+		char *reply_text = json_dumps(reply, JSON_PRESERVE_ORDER);
 		json_decref(reply);
 		/* Send the success reply */
 		ret = janus_process_success(source, reply_text);
@@ -1271,7 +1271,7 @@ int janus_process_incoming_request(janus_request_source *source, json_t *root) {
 		json_object_set_new(reply, "session_id", json_integer(session_id));
 		json_object_set_new(reply, "transaction", json_string(transaction_text));
 		/* Convert to a string */
-		char *reply_text = json_dumps(reply, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+		char *reply_text = json_dumps(reply, JSON_PRESERVE_ORDER);
 		json_decref(reply);
 		/* Send the success reply */
 		ret = janus_process_success(source, reply_text);
@@ -1302,7 +1302,7 @@ int janus_process_incoming_request(janus_request_source *source, json_t *root) {
 		json_object_set_new(reply, "session_id", json_integer(session_id));
 		json_object_set_new(reply, "transaction", json_string(transaction_text));
 		/* Convert to a string */
-		char *reply_text = json_dumps(reply, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+		char *reply_text = json_dumps(reply, JSON_PRESERVE_ORDER);
 		json_decref(reply);
 		/* Send the success reply */
 		ret = janus_process_success(source, reply_text);
@@ -1702,7 +1702,7 @@ int janus_process_incoming_request(janus_request_source *source, json_t *root) {
 		}
 
 		/* Send the message to the plugin (which must eventually free transaction_text, body_text, jsep_type and sdp) */
-		char *body_text = json_dumps(body, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+		char *body_text = json_dumps(body, JSON_PRESERVE_ORDER);
 		janus_plugin_result *result = plugin_t->handle_message(handle->app_handle, g_strdup((char *)transaction_text), body_text, jsep_type, jsep_sdp_stripped);
 		if(result == NULL) {
 			/* Something went horribly wrong! */
@@ -1743,7 +1743,7 @@ int janus_process_incoming_request(janus_request_source *source, json_t *root) {
 			json_object_set_new(plugin_data, "data", event);
 			json_object_set_new(reply, "plugindata", plugin_data);
 			/* Convert to a string */
-			char *reply_text = json_dumps(reply, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+			char *reply_text = json_dumps(reply, JSON_PRESERVE_ORDER);
 			if(jsep != NULL)
 				json_decref(jsep);
 			json_decref(reply);
@@ -1758,7 +1758,7 @@ int janus_process_incoming_request(janus_request_source *source, json_t *root) {
 				json_object_set_new(reply, "hint", json_string(result->content));
 			json_object_set_new(reply, "transaction", json_string(transaction_text));
 			/* Convert to a string */
-			char *reply_text = json_dumps(reply, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+			char *reply_text = json_dumps(reply, JSON_PRESERVE_ORDER);
 			json_decref(reply);
 			/* Send the success reply */
 			ret = janus_process_success(source, reply_text);
@@ -1859,7 +1859,7 @@ trickledone:
 		json_object_set_new(reply, "session_id", json_integer(session_id));
 		json_object_set_new(reply, "transaction", json_string(transaction_text));
 		/* Convert to a string */
-		char *reply_text = json_dumps(reply, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+		char *reply_text = json_dumps(reply, JSON_PRESERVE_ORDER);
 		json_decref(reply);
 		/* Send the success reply */
 		ret = janus_process_success(source, reply_text);
@@ -2155,7 +2155,7 @@ int janus_process_incoming_admin_request(janus_request_source *source, json_t *r
 			json_object_set_new(status, "max_nack_queue", json_integer(janus_get_max_nack_queue()));
 			json_object_set_new(reply, "status", status);
 			/* Convert to a string */
-			char *reply_text = json_dumps(reply, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+			char *reply_text = json_dumps(reply, JSON_PRESERVE_ORDER);
 			json_decref(reply);
 			/* Send the success reply */
 			ret = janus_process_success(source, reply_text);
@@ -2186,7 +2186,7 @@ int janus_process_incoming_admin_request(janus_request_source *source, json_t *r
 			json_object_set_new(reply, "transaction", json_string(transaction_text));
 			json_object_set_new(reply, "level", json_integer(janus_log_level));
 			/* Convert to a string */
-			char *reply_text = json_dumps(reply, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+			char *reply_text = json_dumps(reply, JSON_PRESERVE_ORDER);
 			json_decref(reply);
 			/* Send the success reply */
 			ret = janus_process_success(source, reply_text);
@@ -2270,7 +2270,7 @@ int janus_process_incoming_admin_request(janus_request_source *source, json_t *r
 			json_object_set_new(reply, "transaction", json_string(transaction_text));
 			json_object_set_new(reply, "log_colors", json_integer(janus_log_colors));
 			/* Convert to a string */
-			char *reply_text = json_dumps(reply, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+			char *reply_text = json_dumps(reply, JSON_PRESERVE_ORDER);
 			json_decref(reply);
 			/* Send the success reply */
 			ret = janus_process_success(source, reply_text);
@@ -2302,7 +2302,7 @@ int janus_process_incoming_admin_request(janus_request_source *source, json_t *r
 			json_object_set_new(reply, "transaction", json_string(transaction_text));
 			json_object_set_new(reply, "libnice_debug", json_integer(janus_ice_is_ice_debugging_enabled()));
 			/* Convert to a string */
-			char *reply_text = json_dumps(reply, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+			char *reply_text = json_dumps(reply, JSON_PRESERVE_ORDER);
 			json_decref(reply);
 			/* Send the success reply */
 			ret = janus_process_success(source, reply_text);
@@ -2330,7 +2330,7 @@ int janus_process_incoming_admin_request(janus_request_source *source, json_t *r
 			json_object_set_new(reply, "transaction", json_string(transaction_text));
 			json_object_set_new(reply, "max_nack_queue", json_integer(janus_get_max_nack_queue()));
 			/* Convert to a string */
-			char *reply_text = json_dumps(reply, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+			char *reply_text = json_dumps(reply, JSON_PRESERVE_ORDER);
 			json_decref(reply);
 			/* Send the success reply */
 			ret = janus_process_success(source, reply_text);
@@ -2359,7 +2359,7 @@ int janus_process_incoming_admin_request(janus_request_source *source, json_t *r
 			json_object_set_new(reply, "transaction", json_string(transaction_text));
 			json_object_set_new(reply, "sessions", list);
 			/* Convert to a string */
-			char *reply_text = json_dumps(reply, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+			char *reply_text = json_dumps(reply, JSON_PRESERVE_ORDER);
 			json_decref(reply);
 			/* Send the success reply */
 			ret = janus_process_success(source, reply_text);
@@ -2801,7 +2801,7 @@ int janus_process_incoming_admin_request(janus_request_source *source, json_t *r
 		json_object_set_new(reply, "session_id", json_integer(session_id));
 		json_object_set_new(reply, "handles", list);
 		/* Convert to a string */
-		char *reply_text = json_dumps(reply, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+		char *reply_text = json_dumps(reply, JSON_PRESERVE_ORDER);
 		json_decref(reply);
 		/* Send the success reply */
 		ret = janus_process_success(source, reply_text);
@@ -2897,7 +2897,7 @@ int janus_process_incoming_admin_request(janus_request_source *source, json_t *r
 		json_object_set_new(reply, "handle_id", json_integer(handle_id));
 		json_object_set_new(reply, "info", info);
 		/* Convert to a string */
-		char *reply_text = json_dumps(reply, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+		char *reply_text = json_dumps(reply, JSON_PRESERVE_ORDER);
 		json_decref(reply);
 		/* Send the success reply */
 		ret = janus_process_success(source, reply_text);
@@ -3044,7 +3044,7 @@ int janus_ws_notifier(janus_request_source *source, int max_events) {
 			return ret;
 		}
 		event->code = 200;
-		char *event_text = json_dumps(list, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+		char *event_text = json_dumps(list, JSON_PRESERVE_ORDER);
 		json_decref(list);
 		event->payload = event_text;
 		event->allocated = 1;
@@ -3190,7 +3190,7 @@ int janus_process_error(janus_request_source *source, uint64_t session_id, const
 	json_object_set_new(error_data, "reason", json_string(error_string ? error_string : "no text"));
 	json_object_set_new(reply, "error", error_data);
 	/* Convert to a string */
-	char *reply_text = json_dumps(reply, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+	char *reply_text = json_dumps(reply, JSON_PRESERVE_ORDER);
 	json_decref(reply);
 	if(format != NULL && error_string != NULL)
 		g_free(error_string);
@@ -4020,7 +4020,7 @@ int janus_push_event(janus_plugin_session *plugin_session, janus_plugin *plugin,
 	if(jsep != NULL)
 		json_object_set_new(reply, "jsep", jsep);
 	/* Convert to a string */
-	char *reply_text = json_dumps(reply, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+	char *reply_text = json_dumps(reply, JSON_PRESERVE_ORDER);
 	json_decref(reply);
 	/* Send the event */
 	JANUS_LOG(LOG_VERB, "[%"SCNu64"] Adding event to queue of messages...\n", ice_handle->handle_id);
