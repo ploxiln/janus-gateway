@@ -57,22 +57,22 @@ extern gboolean janus_log_colors;
 static const char *janus_log_prefix[] = {
 /* no colors */
 	"",
-	"[FATAL] ",
-	"[ERR] ",
-	"[WARN] ",
-	"",
-	"",
-	"",
-	"",
+	"[F] ",
+	"[E] ",
+	"[W] ",
+	"[I] ",
+	"[V] ",
+	"[H] ",
+	"[D] ",
 /* with colors */
 	"",
-	ANSI_COLOR_MAGENTA"[FATAL]"ANSI_COLOR_RESET" ",
-	ANSI_COLOR_RED"[ERR]"ANSI_COLOR_RESET" ",
-	ANSI_COLOR_YELLOW"[WARN]"ANSI_COLOR_RESET" ",
-	"",
-	"",
-	"",
-	""
+	ANSI_COLOR_MAGENTA "[F]" ANSI_COLOR_RESET " ",
+	ANSI_COLOR_RED     "[E]" ANSI_COLOR_RESET " ",
+	ANSI_COLOR_YELLOW  "[W]" ANSI_COLOR_RESET " ",
+	ANSI_COLOR_BLUE    "[I]" ANSI_COLOR_RESET " ",
+	"[V] ",
+	"[H] ",
+	"[D] "
 };
 ///@}
 
