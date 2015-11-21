@@ -310,8 +310,8 @@ void janus_echotest_destroy(void) {
 	if(!g_atomic_int_get(&initialized))
 		return;
 	g_atomic_int_set(&stopping, 1);
-
 	g_async_queue_push(messages, g_malloc0(sizeof(janus_echotest_message)));
+
 	if(handler_thread != NULL) {
 		g_thread_join(handler_thread);
 		handler_thread = NULL;
