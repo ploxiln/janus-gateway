@@ -627,7 +627,7 @@ int janus_websockets_send_message(void *transport, void *request_id, gboolean ad
 	}
 	janus_mutex_lock(&client->mutex);
 	/* Convert to string and enqueue */
-	char *payload = json_dumps(message, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+	char *payload = json_dumps(message, JSON_PRESERVE_ORDER);
 	g_async_queue_push(client->messages, payload);
 	libwebsocket_callback_on_writable(client->context, client->wsi);
 	janus_mutex_unlock(&client->mutex);

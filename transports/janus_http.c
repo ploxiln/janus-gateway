@@ -1157,7 +1157,7 @@ int janus_http_handler(void *cls, struct MHD_Connection *connection, const char 
 		if(event != NULL) {
 			if(max_events == 1) {
 				/* Return just this message and leave */
-				gchar *event_text = json_dumps(event, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+				gchar *event_text = json_dumps(event, JSON_PRESERVE_ORDER);
 				json_decref(event);
 				ret = janus_http_return_success(msg, event_text);
 			} else {
@@ -1173,7 +1173,7 @@ int janus_http_handler(void *cls, struct MHD_Connection *connection, const char 
 					events++;
 				}
 				/* Return the array of messages and leave */
-				gchar *list_text = json_dumps(list, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+				gchar *list_text = json_dumps(list, JSON_PRESERVE_ORDER);
 				json_decref(list);
 				ret = janus_http_return_success(msg, list_text);
 			}
@@ -1225,7 +1225,7 @@ parsingdone:
 	if(!msg->response) {
 		ret = MHD_NO;
 	} else {
-		char *response_text = json_dumps(msg->response, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+		char *response_text = json_dumps(msg->response, JSON_PRESERVE_ORDER);
 		json_decref(msg->response);
 		msg->response = NULL;
 		ret = janus_http_return_success(msg, response_text);
@@ -1472,7 +1472,7 @@ parsingdone:
 	if(!msg->response) {
 		ret = MHD_NO;
 	} else {
-		char *response_text = json_dumps(msg->response, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+		char *response_text = json_dumps(msg->response, JSON_PRESERVE_ORDER);
 		json_decref(msg->response);
 		msg->response = NULL;
 		ret = janus_http_return_success(msg, response_text);
@@ -1599,7 +1599,7 @@ int janus_http_notifier(janus_http_msg *msg, int max_events) {
 		}
 		/* FIXME Improve the Janus protocol keep-alive mechanism in JavaScript */
 	}
-	char *payload_text = json_dumps(list ? list : event, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+	char *payload_text = json_dumps(list ? list : event, JSON_PRESERVE_ORDER);
 	json_decref(list ? list : event);
 	/* Finish the request by sending the response */
 	JANUS_LOG(LOG_VERB, "We have a message to serve: %.125s%s\n", payload_text,
@@ -1659,7 +1659,7 @@ int janus_http_return_error(janus_http_msg *msg, uint64_t session_id, const char
 	json_object_set_new(error_data, "code", json_integer(error));
 	json_object_set_new(error_data, "reason", json_string(error_string));
 	json_object_set_new(reply, "error", error_data);
-	gchar *reply_text = json_dumps(reply, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+	gchar *reply_text = json_dumps(reply, JSON_PRESERVE_ORDER);
 	json_decref(reply);
 	/* Use janus_http_return_error to send the error response */
 	return janus_http_return_success(msg, reply_text);

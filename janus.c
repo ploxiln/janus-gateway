@@ -1182,7 +1182,7 @@ int janus_process_incoming_request(janus_request *request) {
 		}
 
 		/* Send the message to the plugin (which must eventually free transaction_text, body_text, jsep_type and sdp) */
-		char *body_text = json_dumps(body, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+		char *body_text = json_dumps(body, JSON_PRESERVE_ORDER);
 		janus_plugin_result *result = plugin_t->handle_message(handle->app_handle, g_strdup((char *)transaction_text), body_text, jsep_type, jsep_sdp_stripped);
 		if(result == NULL) {
 			/* Something went horribly wrong! */

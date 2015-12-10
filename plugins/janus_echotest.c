@@ -437,7 +437,7 @@ char *janus_echotest_query_session(janus_plugin_session *handle) {
 	}
 	json_object_set_new(info, "slowlink_count", json_integer(session->slowlink_count));
 	json_object_set_new(info, "destroyed", json_integer(session->destroyed));
-	char *info_text = json_dumps(info, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+	char *info_text = json_dumps(info, JSON_PRESERVE_ORDER);
 	json_decref(info);
 	return info_text;
 }
@@ -599,7 +599,7 @@ void janus_echotest_slow_link(janus_plugin_session *handle, int uplink, int vide
 			json_object_set_new(result, "status", json_string("slow_link"));
 			json_object_set_new(result, "bitrate", json_integer(session->bitrate));
 			json_object_set_new(event, "result", result);
-			char *event_text = json_dumps(event, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+			char *event_text = json_dumps(event, JSON_PRESERVE_ORDER);
 			json_decref(event);
 			json_decref(result);
 			event = NULL;
@@ -626,7 +626,7 @@ void janus_echotest_hangup_media(janus_plugin_session *handle) {
 	json_t *event = json_object();
 	json_object_set_new(event, "echotest", json_string("event"));
 	json_object_set_new(event, "result", json_string("done"));
-	char *event_text = json_dumps(event, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+	char *event_text = json_dumps(event, JSON_PRESERVE_ORDER);
 	json_decref(event);
 	JANUS_LOG(LOG_VERB, "Pushing event: %s\n", event_text);
 	int ret = gateway->push_event(handle, &janus_echotest_plugin, NULL, event_text, NULL, NULL);
@@ -872,7 +872,7 @@ static void *janus_echotest_handler(void *data) {
 		json_t *event = json_object();
 		json_object_set_new(event, "echotest", json_string("event"));
 		json_object_set_new(event, "result", json_string("ok"));
-		char *event_text = json_dumps(event, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+		char *event_text = json_dumps(event, JSON_PRESERVE_ORDER);
 		json_decref(event);
 		JANUS_LOG(LOG_VERB, "Pushing event: %s\n", event_text);
 		if(!msg->sdp) {
@@ -923,7 +923,7 @@ error:
 			json_object_set_new(event, "echotest", json_string("event"));
 			json_object_set_new(event, "error_code", json_integer(error_code));
 			json_object_set_new(event, "error", json_string(error_cause));
-			char *event_text = json_dumps(event, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+			char *event_text = json_dumps(event, JSON_PRESERVE_ORDER);
 			json_decref(event);
 			JANUS_LOG(LOG_VERB, "Pushing event: %s\n", event_text);
 			int ret = gateway->push_event(msg->handle, &janus_echotest_plugin, msg->transaction, event_text, NULL, NULL);

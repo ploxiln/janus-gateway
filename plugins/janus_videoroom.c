@@ -818,7 +818,7 @@ void janus_videoroom_destroy_session(janus_plugin_session *handle, int *error) {
 			json_object_set_new(event, "videoroom", json_string("event"));
 			json_object_set_new(event, "room", json_integer(participant->room->room_id));
 			json_object_set_new(event, "leaving", json_integer(participant->user_id));
-			char *leaving_text = json_dumps(event, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+			char *leaving_text = json_dumps(event, JSON_PRESERVE_ORDER);
 			json_decref(event);
 			GHashTableIter iter;
 			gpointer value;
@@ -915,7 +915,7 @@ char *janus_videoroom_query_session(janus_plugin_session *handle) {
 		}
 	}
 	json_object_set_new(info, "destroyed", json_integer(session->destroyed));
-	char *info_text = json_dumps(info, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+	char *info_text = json_dumps(info, JSON_PRESERVE_ORDER);
 	json_decref(info);
 	return info_text;
 }
@@ -1282,7 +1282,7 @@ struct janus_plugin_result *janus_videoroom_handle_message(janus_plugin_session 
 		json_t *destroyed = json_object();
 		json_object_set_new(destroyed, "videoroom", json_string("destroyed"));
 		json_object_set_new(destroyed, "room", json_integer(videoroom->room_id));
-		char *destroyed_text = json_dumps(destroyed, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+		char *destroyed_text = json_dumps(destroyed, JSON_PRESERVE_ORDER);
 		GHashTableIter iter;
 		gpointer value;
 		/* Remove room lazily*/
@@ -1743,7 +1743,7 @@ plugin_response:
 			g_free(sdp_type);
 			g_free(sdp);
 
-			char *response_text = json_dumps(response, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+			char *response_text = json_dumps(response, JSON_PRESERVE_ORDER);
 			json_decref(response);
 			janus_plugin_result *result = janus_plugin_result_new(JANUS_PLUGIN_OK, response_text);
 			g_free(response_text);
@@ -1764,7 +1764,7 @@ error:
 			json_object_set_new(event, "videoroom", json_string("event"));
 			json_object_set_new(event, "error_code", json_integer(error_code));
 			json_object_set_new(event, "error", json_string(error_cause));
-			char *event_text = json_dumps(event, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+			char *event_text = json_dumps(event, JSON_PRESERVE_ORDER);
 			json_decref(event);
 			janus_plugin_result *result = janus_plugin_result_new(JANUS_PLUGIN_OK, event_text);
 			g_free(event_text);
@@ -2026,7 +2026,7 @@ void janus_videoroom_slow_link(janus_plugin_session *handle, int uplink, int vid
 				/* Also add info on what the current bitrate cap is */
 				uint64_t bitrate = (publisher->bitrate ? publisher->bitrate : 256*1024);
 				json_object_set_new(event, "current-bitrate", json_integer(bitrate));
-				char *event_text = json_dumps(event, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+				char *event_text = json_dumps(event, JSON_PRESERVE_ORDER);
 				json_decref(event);
 				event = NULL;
 				gateway->push_event(session->handle, &janus_videoroom_plugin, NULL, event_text, NULL, NULL);
@@ -2044,7 +2044,7 @@ void janus_videoroom_slow_link(janus_plugin_session *handle, int uplink, int vid
 				 * up to the application to then choose a policy and enforce it */
 				json_t *event = json_object();
 				json_object_set_new(event, "videoroom", json_string("slow_link"));
-				char *event_text = json_dumps(event, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+				char *event_text = json_dumps(event, JSON_PRESERVE_ORDER);
 				json_decref(event);
 				event = NULL;
 				gateway->push_event(session->handle, &janus_videoroom_plugin, NULL, event_text, NULL, NULL);
@@ -2113,7 +2113,7 @@ void janus_videoroom_hangup_media(janus_plugin_session *handle) {
 		json_object_set_new(event, "videoroom", json_string("event"));
 		json_object_set_new(event, "room", json_integer(participant->room->room_id));
 		json_object_set_new(event, "unpublished", json_integer(participant->user_id));
-		char *unpub_text = json_dumps(event, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+		char *unpub_text = json_dumps(event, JSON_PRESERVE_ORDER);
 		json_decref(event);
 		GHashTableIter iter;
 		gpointer value;
@@ -2573,7 +2573,7 @@ static void *janus_videoroom_handler(void *data) {
 						json_object_set_new(event, "display", json_string(publisher->display));
 					session->participant_type = janus_videoroom_p_type_subscriber;
 					JANUS_LOG(LOG_VERB, "Preparing JSON event as a reply\n");
-					char *event_text = json_dumps(event, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+					char *event_text = json_dumps(event, JSON_PRESERVE_ORDER);
 					json_decref(event);
 					/* Negotiate by sending the selected publisher SDP back */
 					if(publisher->sdp != NULL) {
@@ -2656,7 +2656,7 @@ static void *janus_videoroom_handler(void *data) {
 				json_object_set_new(event, "videoroom", json_string("muxed-created"));
 				json_object_set_new(event, "room", json_integer(videoroom->room_id));
 				JANUS_LOG(LOG_VERB, "Preparing JSON event as a reply\n");
-				char *event_text = json_dumps(event, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+				char *event_text = json_dumps(event, JSON_PRESERVE_ORDER);
 				json_decref(event);
 				/* How long will the gateway take to push the event? */
 				gint64 start = janus_get_monotonic_time();
@@ -2880,7 +2880,7 @@ static void *janus_videoroom_handler(void *data) {
 				json_object_set_new(event, "videoroom", json_string("event"));
 				json_object_set_new(event, "room", json_integer(participant->room->room_id));
 				json_object_set_new(event, "leaving", json_integer(participant->user_id));
-				char *leaving_text = json_dumps(event, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+				char *leaving_text = json_dumps(event, JSON_PRESERVE_ORDER);
 				GHashTableIter iter;
 				gpointer value;
 				if(participant->room) {
@@ -3284,7 +3284,7 @@ static void *janus_videoroom_handler(void *data) {
 
 		/* Prepare JSON event */
 		JANUS_LOG(LOG_VERB, "Preparing JSON event as a reply\n");
-		char *event_text = json_dumps(event, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+		char *event_text = json_dumps(event, JSON_PRESERVE_ORDER);
 		json_decref(event);
 		/* Any SDP to handle? */
 		if(!msg->sdp) {
@@ -3538,7 +3538,7 @@ static void *janus_videoroom_handler(void *data) {
 					json_object_set_new(pub, "videoroom", json_string("event"));
 					json_object_set_new(pub, "room", json_integer(participant->room->room_id));
 					json_object_set_new(pub, "publishers", list);
-					char *pub_text = json_dumps(pub, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+					char *pub_text = json_dumps(pub, JSON_PRESERVE_ORDER);
 					json_decref(pub);
 					GHashTableIter iter;
 					gpointer value;
@@ -3571,7 +3571,7 @@ error:
 			json_object_set_new(event, "videoroom", json_string("event"));
 			json_object_set_new(event, "error_code", json_integer(error_code));
 			json_object_set_new(event, "error", json_string(error_cause));
-			char *event_text = json_dumps(event, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+			char *event_text = json_dumps(event, JSON_PRESERVE_ORDER);
 			json_decref(event);
 			JANUS_LOG(LOG_VERB, "Pushing event: %s\n", event_text);
 			int ret = gateway->push_event(msg->handle, &janus_videoroom_plugin, msg->transaction, event_text, NULL, NULL);
@@ -3658,7 +3658,7 @@ int janus_videoroom_muxed_subscribe(janus_videoroom_listener_muxed *muxed_listen
 	json_object_set_new(event, "room", json_integer(videoroom->room_id));
 	json_object_set_new(event, "feeds", list);
 	JANUS_LOG(LOG_VERB, "Preparing JSON event as a reply\n");
-	char *event_text = json_dumps(event, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+	char *event_text = json_dumps(event, JSON_PRESERVE_ORDER);
 	json_decref(event);
 	/* Send the updated offer */
 	return janus_videoroom_muxed_offer(muxed_listener, transaction, event_text);
@@ -3712,7 +3712,7 @@ int janus_videoroom_muxed_unsubscribe(janus_videoroom_listener_muxed *muxed_list
 	json_object_set_new(event, "room", json_integer(videoroom->room_id));
 	json_object_set_new(event, "feeds", list);
 	JANUS_LOG(LOG_VERB, "Preparing JSON event as a reply\n");
-	char *event_text = json_dumps(event, JSON_INDENT(3) | JSON_PRESERVE_ORDER);
+	char *event_text = json_dumps(event, JSON_PRESERVE_ORDER);
 	json_decref(event);
 	/* Send the updated offer */
 	return janus_videoroom_muxed_offer(muxed_listener, transaction, event_text);
