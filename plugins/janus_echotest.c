@@ -251,7 +251,7 @@ void *janus_echotest_watchdog(void *data) {
 			}
 		}
 		janus_mutex_unlock(&sessions_mutex);
-		g_usleep(500000);
+		sleep(1);
 	}
 	JANUS_LOG(LOG_INFO, "EchoTest watchdog stopped\n");
 	return NULL;
