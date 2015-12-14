@@ -699,13 +699,13 @@ static int janus_websockets_callback_http(struct libwebsocket_context *this,
 	/* This endpoint cannot be used for HTTP */
 	switch(reason) {
 		case LWS_CALLBACK_HTTP:
-			JANUS_LOG(LOG_VERB, "Rejecting incoming HTTP request on WebSockets endpoint\n");
+			JANUS_LOG(LOG_WARN, "Rejecting incoming HTTP request on WebSockets endpoint\n");
 			libwebsockets_return_http_status(this, wsi, 403, NULL);
 			/* Close and free connection */
 			return -1;
 		case LWS_CALLBACK_FILTER_PROTOCOL_CONNECTION:
 			if (!in) {
-				JANUS_LOG(LOG_VERB, "Rejecting incoming HTTP request on WebSockets endpoint: no sub-protocol specified\n");
+				JANUS_LOG(LOG_WARN, "Rejecting incoming HTTP request on WebSockets endpoint: no sub-protocol specified\n");
 				return -1;
 			}
 			break;
