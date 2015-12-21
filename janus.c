@@ -3315,7 +3315,7 @@ gint main(int argc, char *argv[])
 	/* Any 1:1 NAT mapping to take into account? */
 	item = janus_config_get_item_drilldown(config, "nat", "nat_1_1_mapping");
 	if(item && item->value) {
-		JANUS_LOG(LOG_VERB, "Using nat_1_1_mapping for public ip - %s\n", item->value);
+		JANUS_LOG(LOG_INFO, "Using nat_1_1_mapping for public ip - %s\n", item->value);
 		nat_1_1_mapping = item->value;
 		janus_set_public_ip(item->value);
 		janus_ice_enable_nat_1_1();
